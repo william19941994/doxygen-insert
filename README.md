@@ -9,15 +9,19 @@
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  打开Keil
+2.  Tools菜单的Customize Tool Menu
+3.  新建（叉号左边的那个按钮）
+4.  Command选择本项目bin目录中的exe
+5.  Arguments 输入 -Proj #P -File #F -Line ~F -Pos ^F -Keil #X -CPU $M
+6.  保存
+7.  Keil中打开项目，打开一个文件，然后点Tools菜单的刚刚新建的子菜单。
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  Keil中打开项目
+2.  打开一个文件
+3.  然后点Tools菜单的刚刚新建的子菜单。
 
 #### 参与贡献
 
