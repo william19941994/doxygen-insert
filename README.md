@@ -4,11 +4,14 @@
 往keil的c文件中自动插入doxygen格式的注释
 
 #### 软件架构
-软件架构说明
+使用vs2019社区版 + winform + .net framework 4.0开发。
+没有使用任何第三方库。
+里面做了个及其简单的c语言词法分析器。并基于它解析出来了函数列表。 
 
 
 #### 安装教程
 
+0.  必须先安装.net framework 4.0 或者4.8 ==> [https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net40](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net40)
 1.  打开Keil
 2.  Tools菜单的Customize Tool Menu
 3.  新建（叉号左边的那个按钮）
