@@ -1,0 +1,153 @@
+﻿<Window x:Class="DoxygenInsert.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoxygenInsert" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:winform ="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        mc:Ignorable="d"
+        AllowDrop="True" Drop="Window_Drop"
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <RoutedUICommand x:Key="copy"/>
+        <RoutedUICommand x:Key="open"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource copy}" Executed="cmdCopy_Executed" CanExecute="cmdCopy_CanExecute"/>
+        <CommandBinding Command="{StaticResource open}" Executed="cmdOpen_Executed" CanExecute="cmdOpen_CanExecute"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+C" Command="{StaticResource copy}"/>
+        <KeyBinding Gesture="Ctrl+O" Command="{StaticResource open}"/>
+    </Window.InputBindings>
+    <Grid>
+        <DockPanel>
+            <StackPanel x:Name="pnlTop" DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="项目" />
+                    <Label x:Name="lblProjectName" Content="keil或者iar的项目" MinWidth="200"/>
+                    <Button x:Name="btnOpenProject" Click="btnOpenProject_Click" Content="打开工程" />
+                    <Button x:Name="btnOpenDirectory" Click="btnOpenDirectory_Click" Content="打开目录" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="文件" />
+                    <ComboBox x:Name="cmbFile"  SelectionChanged="cmbFile_SelectionChanged" MinWidth="200"/>
+                    <Button x:Name="btnOpenFile" Click="btnOpenFile_Click" Content="打开文件" />
+                    <Button x:Name="btnGenerateFileHeader" Content="生成文件头" Click="btnGenerateFileHeader_Click" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="函数" />
+                    <ComboBox x:Name="cmbFunction"  MinWidth="200" SelectionChanged="cmbFunction_SelectionChanged"/>
+                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="声明" />
+                    <TextBox x:Name="txtFunctionDeclare" Grid.Column="1" />
+                    <Button x:Name="btnGenerateFunction" Grid.Column="2" Content="生成函数说明" Click="btnGenerateFunction_Click" />
+                </Grid>
+            </StackPanel>
+            <TabControl>
+                <TabItem Header="生成的注释">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+                            <Button x:Name="btnCopy" Content="复制(Ctrl+C)" Command="{StaticResource copy}" />
+                            <Button Content="插入" IsEnabled="False" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <RichTextBox x:Name="txtComment" />
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="文件头模板" >
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" >
+                            <Button x:Name="btnSaveHeaderTemplate" Content="保存模板" />
+                        </StackPanel>
+                    <RichTextBox x:Name="txtHeaderTemplate" FontFamily="SimSun" >
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run>
+                                    <sys:String xml:space="preserve">/**
+* @file         %1
+* @brief		文件简介
+* @details	    文件详情
+* @author		作者
+* @date		    %4
+* @version	    v1.0
+* @par Copyright(c): 	xxx 公司
+* @par History:         
+*	V1.0: 作者, 日期, 修改内容   多行回车
+*/
+</sys:String>
+                                </Run>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="函数模板" >
+                    <RichTextBox x:Name="txtFunctionTemplate" FontFamily="SimSun" >
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run>
+                                    <sys:String xml:space="preserve">/**
+* @brief %1 
+* @param %2 
+* @return %3
+* @details %4
+* @see %5
+*/
+</sys:String></Run>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </TabItem>
+                <TabItem Header="doxygen关键字" >
+                    <RichTextBox >
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run>参考</Run>
+                                <Hyperlink NavigateUri="https://www.doxygen.nl/manual/commands.html">https://www.doxygen.nl/manual/commands.html</Hyperlink>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </TabItem>
+                <TabItem Header="帮助" >
+                    <RichTextBox>
+                        <FlowDocument>
+                            <List>
+                                <ListItem>
+                                    <Paragraph>
+                                        <Run>1 打开Keil，在Tool菜单选择Customize Tool Menu</Run>
+                                    </Paragraph>
+                                </ListItem>
+                                <ListItem>
+                                    <Paragraph>
+                                        <Run>2 新建Menu Content</Run>
+                                    </Paragraph>
+                                </ListItem>
+                                <ListItem>
+                                    <Paragraph>
+                                        <Run>3 选择Command为本exe，Arguments为 -Proj #P -File #F -Line ~F -Pos ^F -Keil #X -CPU $M</Run>
+                                    </Paragraph>
+                                </ListItem>
+                                <ListItem>
+                                    <Paragraph>
+                                        <Run>4 修改本exe目录下的 HeaderTemplate.c 和 FunctionTemplate.c，没有的话新建一个。</Run>
+                                    </Paragraph>
+                                </ListItem>
+                            </List>
+                        </FlowDocument>
+                    </RichTextBox>
+                </TabItem>
+                <TabItem Header="Debug" >
+                    <WindowsFormsHost >
+                        <winform:PropertyGrid x:Name="pgDebug" PropertySort="Categorized" />
+                    </WindowsFormsHost>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>

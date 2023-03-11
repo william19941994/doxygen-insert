@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DoxygenInsertNetCore": {
+      "commandName": "Project",
+      "commandLineArgs": "-Proj E:\\svn_local\\Firmware\\400G_FR4\\Trunk\\Firm\\FR4.uvprojx -File E:\\svn_local\\Firmware\\400G_FR4\\Trunk\\Firm\\lib\\Inphi\\por_dr\\gpio.c -Line 23 -Pos 4 -Keil D:\\Keil_v5_960\\UV4\\UV4.exe -CPU "
+    }
+  }
+}
